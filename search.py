@@ -82,16 +82,64 @@ def depthFirstSearch(problem: SearchProblem):
     To get started, you might want to try some of these simple commands to
     understand the search problem that is being passed in:
     """
+
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     "*** YOUR CODE HERE ***"
+
+    frontier = util.Stack()
+    visited = []
+    moves = []
+    goal_found = False
+    frontier.push((problem.getStartState(), [], 0))
+
+    while goal_found==False:
+        node = frontier.list[-1] #get the last item of the stack
+        node, moves, _ = frontier.pop() #delete the last item from the frontier
+
+        if problem.isGoalState(node)==True:
+            goal_found = True
+            return moves
+        else:
+            visited.append(node)
+
+            children = problem.getSuccessors(node)
+
+            for child, move, _ in children:
+                if child not in visited:
+                    frontier.push((child, moves + [move], _))
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+
+    frontier = util.Queue()
+    visited = []
+    moves = []
+    goal_found = False
+    frontier.push((problem.getStartState(), [], 0))
+
+    while goal_found==False:
+        node = frontier.list[-1] #get the last item of the stack
+        node, moves, _ = frontier.pop() #delete the last item from the frontier
+
+        if problem.isGoalState(node)==True:
+            goal_found = True
+            return moves
+        else:
+            visited.append(node)
+
+            children = problem.getSuccessors(node)
+
+            for child, move, _ in children:
+                if child not in visited:
+                    frontier.push((child, moves + [move], _))
+
     util.raiseNotDefined()
+
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
